@@ -28,7 +28,6 @@ export function EnhancedImage({
   const [debugInfo, setDebugInfo] = useState<any>(null)
   const [showDetails, setShowDetails] = useState(false)
 
-  // Generate a placeholder URL with dimensions and text
   const getPlaceholder = () => {
     const w = width || 300
     const h = height || 200
@@ -36,7 +35,6 @@ export function EnhancedImage({
     return `/placeholder.svg?height=${h}&width=${w}&text=${text}`
   }
 
-  // Check if the image exists before setting it
   useEffect(() => {
     const checkImage = async () => {
       if (!src) {
@@ -47,16 +45,12 @@ export function EnhancedImage({
       }
 
       try {
-        // Add a cache-busting parameter to avoid browser caching
         const testSrc = `${src}?t=${Date.now()}`
-
-        // First try a HEAD request to check if the image exists
         const response = await fetch(testSrc, {
           method: "HEAD",
           cache: "no-store",
         })
 
-        // Collect debug information
         const debugData = {
           url: src,
           status: response.status,
@@ -79,7 +73,6 @@ export function EnhancedImage({
         console.error(`Error checking image: ${src}`, err)
         setImgSrc(fallbackSrc || getPlaceholder())
         setError(err instanceof Error ? err.message : "Unknown error")
-
         setDebugInfo({
           url: src,
           error: err instanceof Error ? err.message : "Unknown error",
@@ -103,20 +96,28 @@ export function EnhancedImage({
     return (
       <div
         className={`bg-gray-200 animate-pulse ${className}`}
-        style={{ width: width ? `${width}px` : "100%", height: height ? `${height}px` : "100%" }}
+        style={{
+          width: width ? `${width}px` : "100%",
+          height: height ? `${height}px` : "100%",
+        }}
       />
     )
   }
 
   return (
-    <div className="relative">
+    <div
+      className="relative"
+      style={{
+        width: width ? `${width}px` : "100%",
+        height: height ? `${height}px` : "100%",
+      }}
+    >
       <img
         src={imgSrc || getPlaceholder()}
         alt={alt}
         onError={handleError}
         className={className}
-        width={width}
-        height={height}
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}
       />
 
       {error && (
@@ -136,7 +137,7 @@ export function EnhancedImage({
       )}
 
       {showDebugInfo && showDetails && debugInfo && (
-        <div className="absolute top-0 left-0 right-0 bg-black/80 text-white text-xs p-2 overflow-auto max-h-40">
+        <div className="absolute top-0 left-0 right-0 bg-black/80 text-white text-xs p-2 overflow-auto max-h-40 z-10">
           <pre className="text-xs">{JSON.stringify(debugInfo, null, 2)}</pre>
         </div>
       )}

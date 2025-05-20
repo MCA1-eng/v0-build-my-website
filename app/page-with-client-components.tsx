@@ -67,10 +67,11 @@ export default function Home() {
               <div className="flex items-center justify-center">
                 <div className="relative h-[300px] w-full overflow-hidden rounded-xl bg-muted md:h-[400px] lg:h-[500px]">
                   <ImageWithFallback
-                    src="/images/business-funding.jpg"
+                    src="/business-funding.jpg"
                     alt="Business owner reviewing finances"
                     className="object-cover w-full h-full"
                   />
+
                 </div>
               </div>
             </div>

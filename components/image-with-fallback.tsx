@@ -19,11 +19,13 @@ export default function ImageWithFallback({
   const [error, setError] = useState(false)
 
   const handleError = () => {
-    if (!error) {
-      setImgSrc(fallbackSrc)
-      setError(true)
-    }
+  console.log("Image failed to load, using fallback.");
+  if (!error) {
+    setImgSrc(fallbackSrc);
+    setError(true);
   }
+  };
+
 
   return <img src={imgSrc || "/placeholder.svg"} alt={alt} onError={handleError} className={className} />
 }

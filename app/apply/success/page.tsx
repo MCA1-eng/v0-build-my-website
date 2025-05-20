@@ -4,7 +4,7 @@ import { CheckCircle } from "lucide-react"
 
 export default function SuccessPage() {
   return (
-    <div className="container max-w-md py-20">
+    <div className="container max-w-md py-20 mx-auto">
       <div className="flex flex-col items-center text-center space-y-6">
         <CheckCircle className="h-20 w-20 text-emerald-600" />
 

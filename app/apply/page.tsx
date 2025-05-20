@@ -1,25 +1,47 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useCallback } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { BadgeDollarSign, ArrowLeft, AlertCircle, CheckCircle } from "lucide-react"
+import { useState, useCallback } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import {
+  BadgeDollarSign,
+  ArrowLeft,
+  AlertCircle,
+  CheckCircle,
+} from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { DocumentUploader, type UploadedDocument } from "@/components/ui/document-uploader"
-import { submitApplication } from "./actions"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  DocumentUploader,
+  type UploadedDocument,
+} from "@/components/ui/document-uploader";
+import { submitApplication } from "./actions";
 
 export default function ApplicationPage() {
-  const router = useRouter()
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [uploadedDocuments, setUploadedDocuments] = useState<UploadedDocument[]>([])
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploadedDocuments, setUploadedDocuments] = useState<
+    UploadedDocument[]
+  >([]);
   const [formData, setFormData] = useState({
     businessName: "",
     businessAddress: "",
@@ -33,50 +55,52 @@ export default function ApplicationPage() {
     monthlyRevenue: "",
     requestedAmount: "",
     useOfFunds: "",
-  })
-  const [errors, setErrors] = useState<Record<string, string>>({})
-  const [submitError, setSubmitError] = useState<string | null>(null)
-  const [submitSuccess, setSubmitSuccess] = useState(false)
-  const [uploadError, setUploadError] = useState<string | null>(null)
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
 
     // Clear error when field is edited
     if (errors[name]) {
       setErrors((prev) => {
-        const newErrors = { ...prev }
-        delete newErrors[name]
-        return newErrors
-      })
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
     }
-  }
+  };
 
   const handleSelectChange = (name: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [name]: value }))
+    setFormData((prev) => ({ ...prev, [name]: value }));
 
     // Clear error when field is edited
     if (errors[name]) {
       setErrors((prev) => {
-        const newErrors = { ...prev }
-        delete newErrors[name]
-        return newErrors
-      })
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
     }
-  }
+  };
 
   const handleUploadComplete = useCallback((documents: UploadedDocument[]) => {
-    setUploadedDocuments(documents)
-    setUploadError(null)
-  }, [])
+    setUploadedDocuments(documents);
+    setUploadError(null);
+  }, []);
 
   const handleUploadError = useCallback((error: string) => {
-    setUploadError(error)
-  }, [])
+    setUploadError(error);
+  }, []);
 
   const validateForm = useCallback(() => {
-    const newErrors: Record<string, string> = {}
+    const newErrors: Record<string, string> = {};
 
     // Required fields
     const requiredFields = [
@@ -92,100 +116,116 @@ export default function ApplicationPage() {
       { key: "monthlyRevenue", label: "Monthly revenue" },
       { key: "requestedAmount", label: "Requested amount" },
       { key: "useOfFunds", label: "Use of funds" },
-    ]
+    ];
 
     requiredFields.forEach((field) => {
       if (!formData[field.key as keyof typeof formData]) {
-        newErrors[field.key] = `${field.label} is required`
+        newErrors[field.key] = `${field.label} is required`;
       }
-    })
+    });
 
     // Email validation
-    if (formData.ownerEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.ownerEmail)) {
-      newErrors.ownerEmail = "Please enter a valid email address"
+    if (
+      formData.ownerEmail &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.ownerEmail)
+    ) {
+      newErrors.owner = "Please enter a valid email address";
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }, [formData])
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }, [formData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setSubmitError(null)
+    e.preventDefault();
+    setSubmitError(null);
 
     if (!validateForm()) {
-      setSubmitError("Please fill in all required fields correctly.")
-      return
+      setSubmitError("Please fill in all required fields correctly.");
+      return;
     }
 
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
     try {
-      console.log("Submitting form data:", formData)
+      console.log("Submitting form data:", formData);
 
       // Check if any documents are still uploading
-      const stillUploading = uploadedDocuments.some((doc) => doc.status === "uploading")
+      const stillUploading = uploadedDocuments.some(
+        (doc) => doc.status === "uploading"
+      );
       if (stillUploading) {
-        setSubmitError("Please wait for all documents to finish uploading.")
-        setIsSubmitting(false)
-        return
+        setSubmitError("Please wait for all documents to finish uploading.");
+        setIsSubmitting(false);
+        return;
       }
 
       // Prepare the documents data
       const successfulDocuments = uploadedDocuments
         .filter((doc) => doc.status === "success")
-        .map(({ name, url }) => ({ name, url }))
+        .map(({ name, url }) => ({ name, url }));
 
-      console.log("Documents to submit:", successfulDocuments)
+      console.log("Documents to submit:", successfulDocuments);
 
       // Submit the application with documents
       const result = await submitApplication({
         ...formData,
         documents: successfulDocuments,
-      })
+      });
 
-      console.log("Submission result:", result)
+      console.log("Submission result:", result);
 
       if (result.success) {
-        setSubmitSuccess(true)
+        setSubmitSuccess(true);
 
         // Store in localStorage for backup
         try {
-          const applications = JSON.parse(localStorage.getItem("applications") || "[]")
+          const applications = JSON.parse(
+            localStorage.getItem("applications") || "[]"
+          );
           applications.push({
             ...formData,
             documents: successfulDocuments,
             submittedAt: new Date().toISOString(),
-          })
-          localStorage.setItem("applications", JSON.stringify(applications))
+          });
+          localStorage.setItem("applications", JSON.stringify(applications));
         } catch (err) {
-          console.error("Error saving to localStorage:", err)
+          console.error("Error saving to localStorage:", err);
         }
 
         // Redirect to success page
         setTimeout(() => {
-          router.push("/apply/success")
-        }, 1000)
+          router.push("/apply/success");
+        }, 1000);
       } else {
-        throw new Error(result.error || "Failed to submit application")
+        throw new Error(result.error || "Failed to submit application");
       }
     } catch (error: any) {
-      console.error("Error submitting application:", error)
-      setIsSubmitting(false)
-      setSubmitError(error.message || "There was a problem submitting your application. Please try again.")
+      console.error("Error submitting application:", error);
+      setIsSubmitting(false);
+      setSubmitError(
+        error.message ||
+          "There was a problem submitting your application. Please try again."
+      );
     }
-  }
+  };
 
   return (
-    <div className="container max-w-4xl py-10">
-      <Link href="/" className="flex items-center text-sm text-muted-foreground hover:text-emerald-600 mb-6">
+
+  <div className="container max-w-4xl py-10">
+            <Link
+        href="/"
+        className="flex items-center text-sm text-muted-foreground hover:text-emerald-600 mb-6"
+      >
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back to Home
       </Link>
 
       <div className="flex items-center gap-2 mb-8">
         <BadgeDollarSign className="h-8 w-8 text-emerald-600" />
-        <h1 className="text-3xl font-bold">Easy Services - Merchant Cash Advance Application</h1>
+        <h1 className="text-3xl font-bold">
+          Easy Services - Merchant Cash Advance Application
+        </h1>
       </div>
 
       {submitError && (
@@ -213,7 +253,9 @@ export default function ApplicationPage() {
       {submitSuccess && (
         <div className="bg-green-50 border border-green-200 text-green-800 rounded-md p-4 mb-6 flex items-start gap-2">
           <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-          <p>Your application has been submitted successfully! Redirecting...</p>
+          <p>
+            Your application has been submitted successfully! Redirecting...
+          </p>
         </div>
       )}
 
@@ -221,8 +263,9 @@ export default function ApplicationPage() {
         <CardHeader>
           <CardTitle>Business Funding Application</CardTitle>
           <CardDescription>
-            Fill out the form below to apply for a merchant cash advance with Easy Services. We&apos;ll review your
-            application and get back to you within 24 hours.
+            Fill out the form below to apply for a merchant cash advance with
+            Easy Services. We&apos;ll review your application and get back to
+            you within 24 hours.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -242,27 +285,41 @@ export default function ApplicationPage() {
                     onChange={handleChange}
                     className={errors.businessName ? "border-red-500" : ""}
                   />
-                  {errors.businessName && <p className="text-sm text-red-500">{errors.businessName}</p>}
+                  {errors.businessName && (
+                    <p className="text-sm text-red-500">
+                      {errors.businessName}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="yearsInBusiness">Years in Business</Label>
                   <Select
-                    onValueChange={(value) => handleSelectChange("yearsInBusiness", value)}
+                    onValueChange={(value) =>
+                      handleSelectChange("yearsInBusiness", value)
+                    }
                     value={formData.yearsInBusiness}
                   >
-                    <SelectTrigger className={errors.yearsInBusiness ? "border-red-500" : ""}>
+                    <SelectTrigger
+                      className={errors.yearsInBusiness ? "border-red-500" : ""}
+                    >
                       <SelectValue placeholder="Select years in business" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="less-than-1">Less than 1 year</SelectItem>
+                      <SelectItem value="less-than-1">
+                        Less than 1 year
+                      </SelectItem>
                       <SelectItem value="1-2">1-2 years</SelectItem>
                       <SelectItem value="3-5">3-5 years</SelectItem>
                       <SelectItem value="5-10">5-10 years</SelectItem>
                       <SelectItem value="10+">10+ years</SelectItem>
                     </SelectContent>
                   </Select>
-                  {errors.yearsInBusiness && <p className="text-sm text-red-500">{errors.yearsInBusiness}</p>}
+                  {errors.yearsInBusiness && (
+                    <p className="text-sm text-red-500">
+                      {errors.yearsInBusiness}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -276,7 +333,11 @@ export default function ApplicationPage() {
                   onChange={handleChange}
                   className={errors.businessAddress ? "border-red-500" : ""}
                 />
-                {errors.businessAddress && <p className="text-sm text-red-500">{errors.businessAddress}</p>}
+                {errors.businessAddress && (
+                  <p className="text-sm text-red-500">
+                    {errors.businessAddress}
+                  </p>
+                )}
               </div>
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -290,7 +351,11 @@ export default function ApplicationPage() {
                     onChange={handleChange}
                     className={errors.businessCity ? "border-red-500" : ""}
                   />
-                  {errors.businessCity && <p className="text-sm text-red-500">{errors.businessCity}</p>}
+                  {errors.businessCity && (
+                    <p className="text-sm text-red-500">
+                      {errors.businessCity}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
@@ -303,7 +368,11 @@ export default function ApplicationPage() {
                     onChange={handleChange}
                     className={errors.businessState ? "border-red-500" : ""}
                   />
-                  {errors.businessState && <p className="text-sm text-red-500">{errors.businessState}</p>}
+                  {errors.businessState && (
+                    <p className="text-sm text-red-500">
+                      {errors.businessState}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
@@ -316,7 +385,9 @@ export default function ApplicationPage() {
                     onChange={handleChange}
                     className={errors.businessZip ? "border-red-500" : ""}
                   />
-                  {errors.businessZip && <p className="text-sm text-red-500">{errors.businessZip}</p>}
+                  {errors.businessZip && (
+                    <p className="text-sm text-red-500">{errors.businessZip}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -335,7 +406,9 @@ export default function ApplicationPage() {
                   onChange={handleChange}
                   className={errors.ownerName ? "border-red-500" : ""}
                 />
-                {errors.ownerName && <p className="text-sm text-red-500">{errors.ownerName}</p>}
+                {errors.ownerName && (
+                  <p className="text-sm text-red-500">{errors.ownerName}</p>
+                )}
               </div>
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -350,7 +423,9 @@ export default function ApplicationPage() {
                     onChange={handleChange}
                     className={errors.ownerEmail ? "border-red-500" : ""}
                   />
-                  {errors.ownerEmail && <p className="text-sm text-red-500">{errors.ownerEmail}</p>}
+                  {errors.ownerEmail && (
+                    <p className="text-sm text-red-500">{errors.ownerEmail}</p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
@@ -363,7 +438,9 @@ export default function ApplicationPage() {
                     onChange={handleChange}
                     className={errors.ownerPhone ? "border-red-500" : ""}
                   />
-                  {errors.ownerPhone && <p className="text-sm text-red-500">{errors.ownerPhone}</p>}
+                  {errors.ownerPhone && (
+                    <p className="text-sm text-red-500">{errors.ownerPhone}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -376,41 +453,65 @@ export default function ApplicationPage() {
                 <div className="space-y-2">
                   <Label htmlFor="monthlyRevenue">Monthly Revenue</Label>
                   <Select
-                    onValueChange={(value) => handleSelectChange("monthlyRevenue", value)}
+                    onValueChange={(value) =>
+                      handleSelectChange("monthlyRevenue", value)
+                    }
                     value={formData.monthlyRevenue}
                   >
-                    <SelectTrigger className={errors.monthlyRevenue ? "border-red-500" : ""}>
+                    <SelectTrigger
+                      className={errors.monthlyRevenue ? "border-red-500" : ""}
+                    >
                       <SelectValue placeholder="Select monthly revenue" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="10k-25k">$10,000 - $25,000</SelectItem>
                       <SelectItem value="25k-50k">$25,000 - $50,000</SelectItem>
-                      <SelectItem value="50k-100k">$50,000 - $100,000</SelectItem>
-                      <SelectItem value="100k-250k">$100,000 - $250,000</SelectItem>
+                      <SelectItem value="50k-100k">
+                        $50,000 - $100,000
+                      </SelectItem>
+                      <SelectItem value="100k-250k">
+                        $100,000 - $250,000
+                      </SelectItem>
                       <SelectItem value="250k+">$250,000+</SelectItem>
                     </SelectContent>
                   </Select>
-                  {errors.monthlyRevenue && <p className="text-sm text-red-500">{errors.monthlyRevenue}</p>}
+                  {errors.monthlyRevenue && (
+                    <p className="text-sm text-red-500">
+                      {errors.monthlyRevenue}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="requestedAmount">Requested Amount</Label>
                   <Select
-                    onValueChange={(value) => handleSelectChange("requestedAmount", value)}
+                    onValueChange={(value) =>
+                      handleSelectChange("requestedAmount", value)
+                    }
                     value={formData.requestedAmount}
                   >
-                    <SelectTrigger className={errors.requestedAmount ? "border-red-500" : ""}>
+                    <SelectTrigger
+                      className={errors.requestedAmount ? "border-red-500" : ""}
+                    >
                       <SelectValue placeholder="Select requested amount" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="5k-25k">$5,000 - $25,000</SelectItem>
                       <SelectItem value="25k-50k">$25,000 - $50,000</SelectItem>
-                      <SelectItem value="50k-100k">$50,000 - $100,000</SelectItem>
-                      <SelectItem value="100k-250k">$100,000 - $250,000</SelectItem>
+                      <SelectItem value="50k-100k">
+                        $50,000 - $100,000
+                      </SelectItem>
+                      <SelectItem value="100k-250k">
+                        $100,000 - $250,000
+                      </SelectItem>
                       <SelectItem value="250k+">$250,000+</SelectItem>
                     </SelectContent>
                   </Select>
-                  {errors.requestedAmount && <p className="text-sm text-red-500">{errors.requestedAmount}</p>}
+                  {errors.requestedAmount && (
+                    <p className="text-sm text-red-500">
+                      {errors.requestedAmount}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -420,19 +521,24 @@ export default function ApplicationPage() {
                   id="useOfFunds"
                   name="useOfFunds"
                   placeholder="Please describe how you plan to use the funds..."
-                  className={`min-h-[100px] ${errors.useOfFunds ? "border-red-500" : ""}`}
+                  className={`min-h-[100px] ${
+                    errors.useOfFunds ? "border-red-500" : ""
+                  }`}
                   value={formData.useOfFunds}
                   onChange={handleChange}
                 />
-                {errors.useOfFunds && <p className="text-sm text-red-500">{errors.useOfFunds}</p>}
+                {errors.useOfFunds && (
+                  <p className="text-sm text-red-500">{errors.useOfFunds}</p>
+                )}
               </div>
             </div>
 
-            {/* Document Upload Section */}
+            {/* Document Upload Section*/}
             <div className="space-y-4">
               <h2 className="text-xl font-semibold">Document Upload</h2>
               <p className="text-sm text-muted-foreground">
-                Please upload your last 3 months of bank statements and any other relevant documents.
+                Please upload your last 3 months of bank statements and any
+                other relevant documents.
               </p>
 
               <DocumentUploader
@@ -444,17 +550,23 @@ export default function ApplicationPage() {
               />
             </div>
 
-            <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              className="w-full bg-emerald-600 hover:bg-emerald-700"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? "Submitting..." : "Submit Application"}
             </Button>
 
             <p className="text-xs text-center text-muted-foreground">
-              By submitting this application, you agree to Easy Services' Terms of Service and Privacy Policy. We will
-              review your application and contact you within 24 hours.
+              By submitting this application, you agree to Easy Services' Terms
+              of Service and Privacy Policy. We will review your application and
+              contact you within 24 hours.
             </p>
           </form>
         </CardContent>
       </Card>
-    </div>
-  )
+      </div>
+
+  );
 }

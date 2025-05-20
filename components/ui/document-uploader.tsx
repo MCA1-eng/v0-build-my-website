@@ -289,6 +289,13 @@ export function DocumentUploader({
     [uploadedDocuments],
   )
 
+  // Function to trigger file input click
+  const handleSelectFilesClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click()
+    }
+  }
+
   return (
     <div className="space-y-4">
       {uploadError && (
@@ -313,16 +320,18 @@ export function DocumentUploader({
           type="file"
           multiple
           className="hidden"
-          id="file-upload"
           onChange={handleFileChange}
           ref={fileInputRef}
           accept={allowedFileTypes.join(",")}
         />
-        <label htmlFor="file-upload">
-          <Button type="button" variant="outline" className="mt-2">
-            Select Files
-          </Button>
-        </label>
+        <Button 
+          type="button" 
+          variant="outline" 
+          className="mt-2"
+          onClick={handleSelectFilesClick}
+        >
+          Select Files
+        </Button>
       </div>
 
       {uploadedDocuments.length > 0 && (
