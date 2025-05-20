@@ -7,8 +7,8 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2 font-bold">
+        <div className="container flex h-16 items-center justify-between mx-auto pl-5 pr-7">
+          <div className="flex items-center gap-2 font-bold ">
             <BadgeDollarSign className="h-6 w-6 text-emerald-600" />
             <span className="text-xl">Easy Services</span>
           </div>
@@ -26,7 +26,7 @@ export default function Home() {
               Apply Now
             </Link>
           </nav>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center  sm:pr-0">
             <Link href="/apply" passHref>
               <Button className="bg-emerald-600 hover:bg-emerald-700">
                 Get Funded
@@ -37,8 +37,8 @@ export default function Home() {
         </div>
       </header>
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-white to-emerald-50">
-          <div className="container px-4 md:px-6">
+      <section className="w-full py-12 md:py-24 lg:py-16 bg-gradient-to-b from-white to-emerald-50 flex justify-center items-center">
+        <div className="container px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
@@ -67,7 +67,7 @@ export default function Home() {
               <div className="flex items-center justify-center">
                 <div className="relative h-[300px] w-full overflow-hidden rounded-xl bg-muted md:h-[400px] lg:h-[500px]">
                   <EnhancedImage
-                    src="/images/business-funding.jpg"
+                    src="/business-funding.jpg"
                     alt="Business owner reviewing finances"
                     className="object-cover w-full h-full"
                     fallbackSrc="/images/test-business-funding.jpg"
@@ -78,8 +78,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="how-it-works" className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
+        <section id="how-it-works" className="w-full py-12 md:py-24 lg:py-32 flex justify-center">
+        <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
@@ -96,7 +96,7 @@ export default function Home() {
                   title: "1. Apply Online",
                   description: "Fill out our simple application form and upload your last 3 months of bank statements.",
                   icon: <Building className="h-10 w-10 text-emerald-600" />,
-                  image: "/images/business-owner.jpg",
+                  image: "/apply-online.jpg",
                   fallback: "/images/test-business-owner.jpg",
                 },
                 {
@@ -104,14 +104,14 @@ export default function Home() {
                   description:
                     "Receive a funding decision within 24 hours with flexible terms tailored to your business.",
                   icon: <Clock className="h-10 w-10 text-emerald-600" />,
-                  image: "/images/funding-process.jpg",
+                  image: "/funding-process.jpg",
                   fallback: "/images/test-funding-process.jpg",
                 },
                 {
                   title: "3. Receive Funds",
                   description: "Once approved, funds are deposited directly into your business bank account.",
                   icon: <BadgeDollarSign className="h-10 w-10 text-emerald-600" />,
-                  image: "/images/business-funding.jpg",
+                  image: "/funding.jpg",
                   fallback: "/images/test-business-funding.jpg",
                 },
               ].map((step, index) => (
@@ -135,8 +135,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="benefits" className="w-full py-12 md:py-24 lg:py-32 bg-emerald-50">
-          <div className="container px-4 md:px-6">
+      <section id="benefits" className="w-full py-12 md:py-24 lg:py-32 bg-emerald-50 flex justify-center">
+        <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
@@ -183,8 +183,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="faq" className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
+    <section id="faq" className="w-full py-12 md:py-24 lg:py-32 flex justify-center">
+       <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">Frequently Asked Questions</h2>
@@ -230,8 +230,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-emerald-600 text-white">
-          <div className="container grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-10">
+   <section className="w-full py-12 md:py-24 lg:py-32 bg-emerald-600 text-white flex justify-center">
+  <div className="container grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-10">
             <div className="space-y-2">
               <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">Ready to grow your business?</h2>
               <p className="max-w-[600px] opacity-90 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
@@ -245,7 +245,7 @@ export default function Home() {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-emerald-700">
+              <Button size="lg" variant="outline" className="border-white text-black hover:bg-emerald-700 hover:text-white">
                 Contact Us
               </Button>
             </div>
@@ -254,7 +254,7 @@ export default function Home() {
       </main>
       <footer className="border-t py-6 md:py-0">
         <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
-          <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
+          <p className="text-center text-sm leading-loose text-muted-foreground md:text-left pl-5">
             © {new Date().getFullYear()} Easy Services. All rights reserved.
           </p>
           <div className="flex gap-4">
