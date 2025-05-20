@@ -73,7 +73,7 @@ export async function submitApplication(data: ApplicationData) {
       if (process.env.RESEND_API_KEY) {
         const { data: adminEmailData, error: adminEmailError } = await resend.emails.send({
           from: "Easy Services <onboarding@resend.dev>",
-          to: ["itsaaryanrajput@gmail.com"], // Replace with your admin email
+          to: ["info@easyservices.info"], // Replace with your admin email
           subject: `New Application: ${data.businessName}`,
           html: `
             <h1>New Merchant Cash Advance Application</h1>
