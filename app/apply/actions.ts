@@ -37,7 +37,7 @@ export async function submitApplication(data: ApplicationData) {
       if (process.env.RESEND_API_KEY) {
         const { data: emailData, error: emailError } = await resend.emails.send({
           from: "Easy Services <onboarding@resend.dev>",
-          to: ["itsaaryanrajput@gmail.com"],
+          to: ["info@easyservices.info"],
           subject: "Your Application Has Been Received",
           html: `
             <h1>Thank you for your application, ${data.ownerName}!</h1>
