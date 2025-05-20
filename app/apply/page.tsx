@@ -212,7 +212,7 @@ export default function ApplicationPage() {
 
   return (
 
-  <div className="container max-w-4xl py-10">
+  <div className="container max-w-4xl py-10 mx-auto">
             <Link
         href="/"
         className="flex items-center text-sm text-muted-foreground hover:text-emerald-600 mb-6"
