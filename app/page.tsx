@@ -235,9 +235,9 @@ export default function Solutions() {
                     Fast Business Funding When You Need It Most
                   </h1>
                   <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                    Easy Services provides merchant cash advances in as little
-                    as 24 hours. No collateral required. Access $5,000 to
-                    $500,000 for your business needs.
+                    Easy Services provides merchant capital in as little as 24
+                    hours. No collateral required. Access $5,000 to $500,000 for
+                    your business needs.
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
