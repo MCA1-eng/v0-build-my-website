@@ -5,51 +5,7 @@ import { ArrowRight, BadgeDollarSign, CheckCircle, Shield } from "lucide-react";
 export default function PrivacyPolicy() {
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between mx-auto pl-5 pr-7">
-          <div className="flex items-center gap-2 font-bold">
-            <Link href="/" className="flex items-center gap-2">
-              <BadgeDollarSign className="h-6 w-6 text-emerald-600" />
-              <span className="text-xl">Easy Services</span>
-            </Link>
-          </div>
-          <nav className="hidden md:flex gap-6" aria-label="Main Navigation">
-            <Link
-              href="#solutions"
-              className="text-sm font-medium transition-colors hover:text-emerald-600"
-            >
-              Solutions
-            </Link>
-            <Link
-              href="#faq"
-              className="text-sm font-medium transition-colors hover:text-emerald-600"
-            >
-              FAQs
-            </Link>
-            <Link
-              href="#contact"
-              className="text-sm font-medium transition-colors hover:text-emerald-600"
-            >
-              Contact Us
-            </Link>
-            <Link
-              href="/apply"
-              className="text-sm font-medium transition-colors hover:text-emerald-600"
-            >
-              Apply Now
-            </Link>
-          </nav>
-          <div className="flex items-center sm:pr-0">
-            <Link href="/apply" passHref>
-              <Button className="bg-emerald-600 hover:bg-emerald-700">
-                Get Funded
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
-
+   
       <main className="flex-1">
         {/* Hero Section */}
         <section className="w-full py-12 md:py-24 lg:py-16 bg-gradient-to-b from-white to-emerald-50 flex justify-center items-center">
