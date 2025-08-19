@@ -606,13 +606,13 @@ export default function Solutions() {
           </p>
           <div className="flex gap-4">
             <Link
-              href="#"
+              href="/tnc"
               className="text-sm font-medium transition-colors hover:text-emerald-600"
             >
               Terms
             </Link>
             <Link
-              href="#"
+              href="/privacy"
               className="text-sm font-medium transition-colors hover:text-emerald-600"
             >
               Privacy
