@@ -30,6 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DocumentUploader,
   type UploadedDocument,
@@ -55,6 +56,7 @@ export default function ApplicationPage() {
     monthlyRevenue: "",
     requestedAmount: "",
     useOfFunds: "",
+    smsConsent: false, // Added SMS consent field
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -88,6 +90,11 @@ export default function ApplicationPage() {
         return newErrors;
       });
     }
+  };
+
+  // Added handler for checkbox change
+  const handleCheckboxChange = (name: string, checked: boolean) => {
+    setFormData((prev) => ({ ...prev, [name]: checked }));
   };
 
   const handleUploadComplete = useCallback((documents: UploadedDocument[]) => {
@@ -129,7 +136,7 @@ export default function ApplicationPage() {
       formData.ownerEmail &&
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.ownerEmail)
     ) {
-      newErrors.owner = "Please enter a valid email address";
+      newErrors.ownerEmail = "Please enter a valid email address";
     }
 
     setErrors(newErrors);
@@ -211,9 +218,8 @@ export default function ApplicationPage() {
   };
 
   return (
-
-  <div className="container max-w-4xl py-10 mx-auto">
-            <Link
+    <div className="container max-w-4xl py-10">
+      <Link
         href="/"
         className="flex items-center text-sm text-muted-foreground hover:text-emerald-600 mb-6"
       >
@@ -550,6 +556,55 @@ export default function ApplicationPage() {
               />
             </div>
 
+            {/* SMS Consent Section */}
+            <div className="space-y-4">
+              <div className="flex items-start space-x-3 p-4 bg-gray-50 rounded-lg border">
+                <Checkbox
+                  id="smsConsent"
+                  checked={formData.smsConsent}
+                  onCheckedChange={(checked) =>
+                    handleCheckboxChange("smsConsent", checked as boolean)
+                  }
+                  className="mt-1"
+                />
+                <div className="space-y-1">
+                  <Label
+                    htmlFor="smsConsent"
+                    className="text-sm font-normal cursor-pointer leading-relaxed"
+                  >
+                    By checking this box, you agree to receive text messages
+                    (e.g., payment reminders) from Easy Services at the cell
+                    number used when signing up. Consent is not a condition of
+                    any purchase. Reply STOP to unsubscribe, HELP for help.
+                    Message & data rates may apply. Message frequency varies. I
+                    have read and agree with the{" "}
+                    <Link
+                      href="/terms-and-conditions"
+                      className="text-emerald-600 hover:text-emerald-700 underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Terms and Conditions
+                    </Link>{" "}
+                    &{" "}
+                    <Link
+                      href="/privacy-policy"
+                      className="text-emerald-600 hover:text-emerald-700 underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Privacy Policy
+                    </Link>
+                    .
+                  </Label>
+                  <p className="text-xs text-muted-foreground">
+                    This is optional and not required to submit your
+                    application.
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <Button
               type="submit"
               className="w-full bg-emerald-600 hover:bg-emerald-700"
@@ -566,7 +621,6 @@ export default function ApplicationPage() {
           </form>
         </CardContent>
       </Card>
-      </div>
-
+    </div>
   );
 }
